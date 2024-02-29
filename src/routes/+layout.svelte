@@ -2,11 +2,8 @@
   import "../app.scss";
 </script>
 
-<slot />
-
+  <slot />
 
 <style>
-  :global(body) {
-    @apply font-mono;
-  }
+
 </style>
