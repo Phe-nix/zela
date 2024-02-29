@@ -1,8 +1,12 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require('tailwindcss/defaultTheme');
 export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     extend: {
+      fontFamily: {
+        work: ['"Work Sans"', ...defaultTheme.fontFamily.sans],
+      },
       keyframes: {
         typing: {
           '0%': {
