@@ -2,30 +2,33 @@
     import Icon from "@iconify/svelte";
 </script>
 
-<div class="mx-4 flex flex-row p-[1px] bg-[#b7e1ea] rounded-full">
-    <input type="text"
-    placeholder="Enter code here.."
-    class="rounded-full 
-    p-8
-    grow 
-    bg-transparent
-    outline-none
-    "/>
-    <button class="bg-blue-500 text-white font-bold p-4 m-2
-    rounded-full">
-        <Icon
-          icon="basil:arrow-right-outline"
-          width="42"
-          height="42"
-          style="color: black"
-          class="opacity-50"
+<div class="mx-4">
+    <div class="flex flex-row">
+        <input 
+        type="text" 
+        class=" 
+        rounded-md 
+        p-2 
+        ml-4  
+        text-center 
+        font-mitr 
+        font-medium 
+        text-2xl
+        outline-none
+        w-52
+        border-b-[1px]
+        border-[#3090AA]
+        " 
+        placeholder="Type here..." 
         />
-    </button>
+        <button class="bg-[#3090AA] p-3 rounded-full" >
+            <Icon icon="carbon:send-alt-filled" width="32" height="32"  style="color: white" />
+        </button>
+    </div>
 </div>
 
 <style>
-    ::placeholder{
-        color: #134E95;
-        font-size: 1.5rem;
+    ::placeholder {
+        @apply font-chakraPetch;
     }
 </style>
