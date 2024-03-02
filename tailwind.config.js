@@ -6,6 +6,8 @@ export default {
     extend: {
       fontFamily: {
         work: ['"Work Sans"', ...defaultTheme.fontFamily.sans],
+        mitr: ['"Mitr"', ...defaultTheme.fontFamily.sans],
+        chakraPetch: ['"Chakra Petch"', ...defaultTheme.fontFamily.sans],
       },
       keyframes: {
         typing: {
@@ -22,7 +24,7 @@ export default {
             borderColor: 'transparent',
           },
           '100%': {
-            borderColor: 'white',
+            borderColor: '#3090AA',
           },
         },
       },
