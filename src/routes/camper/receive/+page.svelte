@@ -1,10 +1,10 @@
 <script>
-  import Icon from "@iconify/svelte";
-  import Tages from "$lib/components/Tages-camper.svelte";
-  import Card from "$lib/components/Card-camper.svelte";
+    import Icon from "@iconify/svelte";
+    import Card from "$lib/components/Card-reader.svelte";
 </script>
 
-<div class="w-screen bg-[#F3F3F3] px-20 py-10">
+
+<div class="w-screen h-screen max-h-screen bg-[#F3F3F3] px-10 py-10 sm:px-20">
   <div class="flex flex-col text-center">
     <div
       class="border flex flex-row items-center px-2 gap-3 bg-white rounded-lg"
@@ -17,10 +17,7 @@
       />
       <input type="text" class="w-full p-2 outline-none" placeholder="Search" />
     </div>
-    <div class="py-2">
-        <Tages color="#EF4444"/>
-    </div>
-    <div class="py-2 flex flex-col sm:flex-row gap-5 flex-wrap overflow-auto">
+    <div class="py-1 flex flex-row flex-wrap sm:gap-x-2 gap-y-2 gap-x-1">
         <Card />
         <Card />
         <Card />

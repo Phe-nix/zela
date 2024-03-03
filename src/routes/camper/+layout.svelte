@@ -17,46 +17,73 @@
 </script>
 
 {#if !isMobile}
-<div class="flex flex-row h-screen">
-  <div class="w-56 p-6 text-center flex flex-col justify-between">
-    <h1 class="font-mono text-5xl font-semibold">Zela.</h1>
-    <div class="font-mitr font-normal">
-      <a href="/camper/sender" class="block p-2">
-        <div class="flex flex-row gap-2 justify-center py-2 items-center">
-          <Icon icon="fa:send" width="24" height="24" style="color: black" />
-          <p class="">Sender</p>
-        </div>
+  <!-- Side bar -->
+  <div class="flex flex-row h-screen">
+    <div class="w-56 p-6 text-center flex flex-col justify-between">
+      <a href="/camper" class="block p-2">
+        <h1 class="font-mono text-5xl font-semibold">Zela.</h1>
       </a>
-      <a href="/camper/1" class="block p-2">
-        <div class="flex flex-row gap-2 justify-center py-2 items-center">
-          <Icon
-            icon="material-symbols:markunread-mailbox-rounded"
-            width="24"
-            height="24"
-            style="color: black"
-          />
-          <p class="">Receive</p>
-        </div>
-      </a>
-    </div>
-    <div></div>
-    <div></div>
-
-    <button class="block p-2 border-2 bg-red-500 rounded-lg">
-      <div class="flex flex-row gap-2 justify-center items-center">
-        <Icon icon="uis:signout" width="34" height="34" style="color: white" />
-        <p class="text-white">Log out</p>
+      <div class="font-mitr font-normal">
+        <a href="/camper/sender" class="block p-2">
+          <div class="flex flex-row gap-2 justify-center py-2 items-center">
+            <Icon icon="fa:send" width="24" height="24" style="color: black" />
+            <p class="">Sender</p>
+          </div>
+        </a>
+        <a href="/camper/receive" class="block p-2">
+          <div class="flex flex-row gap-2 justify-center py-2 items-center">
+            <Icon
+              icon="material-symbols:markunread-mailbox-rounded"
+              width="24"
+              height="24"
+              style="color: black"
+            />
+            <p class="">Receive</p>
+          </div>
+        </a>
       </div>
-    </button>
-  </div>
+      <div></div>
+      <div></div>
 
-  <slot />
-</div>
-{:else}
-  <div class="flex flex-col">
-    mobil
-    <div>
-
+      <button class="block p-2 border-2 bg-red-500 rounded-lg">
+        <div class="flex flex-row gap-2 justify-center items-center">
+          <Icon
+            icon="uis:signout"
+            width="34"
+            height="34"
+            style="color: white"
+          />
+          <p class="text-white">Log out</p>
+        </div>
+      </button>
     </div>
+    <slot />
   </div>
+{:else}
+  <nav class="flex flex-row items-center justify-between px-4 my-2">
+    <a href="/camper" class="flex flex-row gap-4 items-center">
+      <h1 class="font-mono text-3xl font-semibold">Zela.</h1>
+    </a>
+    <Icon icon="uis:signout" width="34" height="34" style="color: red" />
+  </nav>
+  <slot />
+  <footer class="bottom-0 fixed inset-x-0 mx-12 py-5">
+    <div
+      class="flex flex-row justify-between p-5 border bg-[#3090AA] text-white rounded-3xl font-mitr"
+    >
+      <a href="/camper/sender" class="flex flex-row gap-4 items-center">
+        <Icon icon="fa:send" width="24" height="24" style="color: white" />
+        <p class="text-xs">Sender</p>
+      </a>
+      <a href="/camper/receive" class="flex flex-row gap-4 items-center">
+        <Icon
+          icon="material-symbols:markunread-mailbox-rounded"
+          width="24"
+          height="24"
+          style="color: white"
+        />
+        <p class="text-xs">Receive</p>
+      </a>
+    </div>
+  </footer>
 {/if}
