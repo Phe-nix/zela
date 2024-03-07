@@ -21,18 +21,18 @@
     Zela.
   </h1>
   <div>
-    <h2 
-    class="
+    <h2
+      class="
     text-center
-    font-medium 
+    font-medium
     font-mitr
     text-3xl
     my-4
-    ">
-    Enter your <span class="text-[#3090AA]">Zela</span> code</h2>
+    "
+    >
+      Enter your <span class="text-[#3090AA]">Zela</span> code
+    </h2>
     <Input />
   </div>
-  <div>
-    
-  </div>
+  <div></div>
 </div>

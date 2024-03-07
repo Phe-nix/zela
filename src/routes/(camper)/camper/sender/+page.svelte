@@ -2,6 +2,10 @@
   import Icon from "@iconify/svelte";
   import Tages from "$lib/components/Tages-camper.svelte";
   import Card from "$lib/components/Card-camper.svelte";
+
+/** @type {import('./$types').PageData} */
+  export let data;
+  console.log(data.camper);
 </script>
 
 <div class="w-screen bg-[#F3F3F3] px-20 py-10">
@@ -21,9 +25,12 @@
         <Tages color="#EF4444"/>
     </div>
     <div class="py-2 flex flex-col sm:flex-row gap-5 flex-wrap overflow-auto">
-        <Card />
-        <Card />
-        <Card />
+      {#each data.camper as user}
+        <p>{user}</p>
+        <!-- <Card /> -->
+        <!-- <Card />
+        <Card /> -->
+      {/each}
     </div>
   </div>
 </div>

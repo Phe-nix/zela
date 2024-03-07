@@ -1,6 +1,25 @@
 <script>
   import Icon from "@iconify/svelte";
   import { onMount } from "svelte";
+  import { createDialog, melt } from "@melt-ui/svelte";
+  import { fade } from "svelte/transition";
+  import { goto } from "$app/navigation";
+  import { addToast } from "$lib/components/Toast.svelte";
+  const {
+    elements: {
+      trigger,
+      portalled,
+      overlay,
+      content,
+      title,
+      description,
+      close,
+    },
+    states: { open },
+  } = createDialog({
+    forceVisible: true,
+    role: "alertdialog",
+  });
 
   let isMobile = false;
 
@@ -14,6 +33,19 @@
       }
     });
   });
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    addToast({
+      data: {
+        title: "Success",
+        description: "You have been logged out.",
+        color: "bg-green-500",
+        bg: "bg-green-700",
+      },
+    });
+    goto("/");
+  };
 </script>
 
 {#if !isMobile}
@@ -45,7 +77,10 @@
       <div></div>
       <div></div>
 
-      <button class="block p-2 border-2 bg-red-500 rounded-lg">
+      <button
+        class="block p-2 border-2 bg-red-500 rounded-lg"
+        use:melt={$trigger}
+      >
         <div class="flex flex-row gap-2 justify-center items-center">
           <Icon
             icon="uis:signout"
@@ -87,3 +122,44 @@
     </div>
   </footer>
 {/if}
+
+<!-- modal logout -->
+<div class="font-mitr" use:melt={$portalled}>
+  {#if $open}
+    <div
+      use:melt={$overlay}
+      class="fixed inset-0 z-50 bg-black/50"
+      transition:fade={{ duration: 200 }}
+    />
+    <div
+      class="fixed left-[50%] top-[50%] z-50 max-h-[85vh] w-[90vw]
+            max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-md bg-white
+            p-6 shadow-lg"
+      use:melt={$content}
+    >
+      <h2 use:melt={$title} class="m-0 text-lg font-medium text-red-500">
+        Are you sure you want to logout?
+      </h2>
+      <p use:melt={$description} class="mb-5 mt-2 leading-normal text-zinc-600">
+        This action cannot be undone.
+      </p>
+      <div class="mt-6 flex justify-end gap-4">
+        <button
+          use:melt={$close}
+          class="inline-flex h-8 items-center justify-center rounded-[4px]
+                    bg-zinc-100 hover:bg-zinc-300 px-4 font-medium leading-none text-zinc-600"
+        >
+          Cancel
+        </button>
+        <button
+          use:melt={$close}
+          on:click={() => logout()}
+          class="inline-flex h-8 items-center justify-center rounded-[4px]
+                    bg-red-500 hover:bg-red-300 focus:bg-red-600 text-white px-4 font-medium leading-none text-magnum-900"
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+  {/if}
+</div>
