@@ -1,11 +1,14 @@
 <script>
   import { createAvatar, createDialog, melt } from "@melt-ui/svelte";
   import { fade } from "svelte/transition";
-
+  export let name = "Name";
+  export let house = "House";
+  export let profileSrc = "";
+  export let houseColor = "#E5E5E5"
   const {
     elements: { image, fallback },
   } = createAvatar({
-    src: "",
+    src: profileSrc,
   });
 
   const {
@@ -22,13 +25,14 @@
   } = createDialog({
     forceVisible: true,
   });
+
 </script>
 
 <div
   use:melt={$trigger}
   class="border px-5 py-14 w-64 shadow-lg rounded-xl
-  gap-8 flex flex-col items-center bg-gradient-to-b from-white
-  via-white to-orange-300 hover:shadow-2xl transition duration-500 ease-in-out"
+  gap-8 flex flex-col items-center hover:shadow-2xl transition duration-500 ease-in-out"
+  style={`background: linear-gradient(to bottom, white, white, ${houseColor});`}
 >
   <div
     class="flex h-24 w-24 items-center justify-center rounded-full bg-neutral-200"
@@ -43,8 +47,8 @@
     >
   </div>
   <div class="font-mitr font-normal">
-    <h3>Profile</h3>
-    <p>House name</p>
+    <h3>{name}</h3>
+    <p>{house}</p>
   </div>
 </div>
 

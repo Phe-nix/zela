@@ -1,34 +1,68 @@
 <script>
-    import Icon from "@iconify/svelte";
+  import { goto } from "$app/navigation";
+  import Icon from "@iconify/svelte";
+  import axios, { AxiosError } from "axios";
+
+  let code = "";
+
+  const sendCode = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/auth/camper/code",
+        {
+          zelaCode: code,
+        }
+      );
+      const { token } = response.data;
+      localStorage.setItem("camperToken", token);
+      goto("/camper");
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const errorMessage = error.response?.data.message;
+        console.log(errorMessage);
+      }
+    }
+  };
 </script>
 
 <div class="mx-4">
-    <div class="flex flex-row">
-        <input 
-        type="text" 
-        class=" 
-        rounded-md 
-        p-2 
-        ml-4  
-        text-center 
-        font-mitr 
-        font-medium 
+  <div class="flex flex-row">
+    <input
+      bind:value={code}
+      type="text"
+      class=" 
+        rounded-md
+        p-2
+        ml-4
+        text-center
+        font-mitr
+        font-medium
         text-2xl
         outline-none
         w-52
         border-b-[1px]
         border-[#3090AA]
-        " 
-        placeholder="Type here..." 
-        />
-        <button class="bg-[#3090AA] p-3 rounded-full" >
-            <Icon icon="carbon:send-alt-filled" width="32" height="32"  style="color: white" />
-        </button>
-    </div>
+        "
+      placeholder="Type here..."
+    />
+    <button
+      class="bg-[#3090AA] p-3 rounded-full"
+      on:click={async () => {
+        await sendCode();
+      }}
+    >
+      <Icon
+        icon="carbon:send-alt-filled"
+        width="32"
+        height="32"
+        style="color: white"
+      />
+    </button>
+  </div>
 </div>
 
 <style>
-    ::placeholder {
-        @apply font-chakraPetch;
-    }
+  ::placeholder {
+    @apply font-chakraPetch;
+  }
 </style>
