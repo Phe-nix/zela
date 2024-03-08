@@ -1,9 +1,10 @@
 <script>
   import "../app.scss";
+  import Toast from "../lib/components/Toast.svelte";
 </script>
 
-  <slot />
+<Toast />
+<slot />
 
 <style>
-
 </style>

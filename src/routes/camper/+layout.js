@@ -17,6 +17,7 @@ export async function load() {
             },
         });
         user = res.data;
+        // console.log(user);
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMessage = error.response?.data.message;

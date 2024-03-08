@@ -1,10 +1,12 @@
 <script>
   import { createAvatar, createDialog, melt } from "@melt-ui/svelte";
+  import axios from "axios";
   import { fade } from "svelte/transition";
   export let name = "Name";
   export let house = "House";
   export let profileSrc = "";
-  export let houseColor = "#E5E5E5"
+  export let houseColor = "#E5E5E5";
+  export let me = "";
   const {
     elements: { image, fallback },
   } = createAvatar({
@@ -25,6 +27,15 @@
   } = createDialog({
     forceVisible: true,
   });
+
+  const sending = async() => {
+    try {
+      const camperToken = localStorage.getItem("camperToken");
+    }
+    catch (error) {
+      console.log(error);
+    }
+  };
 
 </script>
 
@@ -68,10 +79,10 @@
       use:melt={$content}
     >
       <h2 use:melt={$title} class="m-0 text-lg font-medium text-black">
-        To : Thomas G. Lopes
+        To : {name}
       </h2>
       <p use:melt={$description} class="mb-5 mt-2 leading-normal text-zinc-600">
-        Make changes to your profile here. Click save when you're done.
+        Write something to send to <span class="font-semibold">{name}</span>.
       </p>
       <div>
         <textarea
@@ -79,7 +90,7 @@
           placeholder="Type your message here....."
         ></textarea>
       </div>
-      <p class="text-xl text-zinc-600 text-end">From : Unknow</p>
+      <p class="text-xl text-zinc-600 text-end">From : {me}</p>
       <div class="mt-6 flex justify-end gap-4">
         <button
           use:melt={$close}

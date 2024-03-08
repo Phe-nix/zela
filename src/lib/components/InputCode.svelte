@@ -2,6 +2,7 @@
   import { goto } from "$app/navigation";
   import Icon from "@iconify/svelte";
   import axios, { AxiosError } from "axios";
+  import {addToast} from "$lib/components/Toast.svelte";
 
   let code = "";
 
@@ -15,10 +16,26 @@
       );
       const { token } = response.data;
       localStorage.setItem("camperToken", token);
+      addToast({
+        data: {
+          title: "Success",
+          description: "You have successfully logged in",
+          color: "bg-green-600",
+          bg: "bg-green-500",
+        },
+      });
       goto("/camper");
     } catch (error) {
       if (error instanceof AxiosError) {
         const errorMessage = error.response?.data.message;
+        addToast({
+          data: {
+            title: "Error",
+            description: errorMessage,
+            color: "bg-red-600",
+            bg: "bg-red-500",
+          },
+        });
         console.log(errorMessage);
       }
     }
