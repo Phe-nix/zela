@@ -21,9 +21,9 @@
           <Tages color="#EF4444"/>
       </div>
       <div class="py-2 flex flex-col sm:flex-row gap-5 flex-wrap overflow-auto">
+          <!-- <Card />
           <Card />
-          <Card />
-          <Card />
+          <Card /> -->
       </div>
     </div>
   </div>

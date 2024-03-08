@@ -1,4 +1,6 @@
 <script>
+// @ts-nocheck
+
   import { createAvatar, createDialog, melt } from "@melt-ui/svelte";
   import { fade } from "svelte/transition";
 
@@ -6,10 +8,11 @@
   import Tage from "$lib/components/Tages-camper.svelte";
   import ButtonEdit from "./Button-Edit.svelte";
   import ButtonDelete from "./Button-Delete.svelte";
+  export let user = null;
   const {
     elements: { image, fallback },
   } = createAvatar({
-    src: "",
+    src: user.ProfileImage?.url && `http://localhost:3000/${user.ProfileImage?.url}` || "https://via.placeholder.com/150",
   });
 </script>
 
@@ -27,11 +30,11 @@
         >UK</span
       >
     </div>
-    <p>User name</p>
-    <Tage color="#EF4444" />
+    <p>{user?.name || "Name"}</p>
+    <Tage name={user?.Camp?.name || "House"} color={user?.Camp?.color || "#C0FFEE"} type="show" />
   </div>
   <div class="flex flex-row my-4 justify-around items-center">
-    <ButtonEdit />
-    <ButtonDelete />
+    <ButtonEdit user={user} />
+    <ButtonDelete user={user}/>
   </div>
 </div>

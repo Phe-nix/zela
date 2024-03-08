@@ -1,8 +1,15 @@
 <script>
+// @ts-nocheck
+
     import { createDialog, melt } from "@melt-ui/svelte";
     import { fade } from 'svelte/transition';
     import Icon from "@iconify/svelte";
-  
+    import axios from "axios";
+    import { addToast } from "./Toast.svelte";
+  import { goto } from "$app/navigation";
+
+    export let user = null;
+
     const {
       elements: {
         trigger,
@@ -19,6 +26,40 @@
       role: 'alertdialog',
     });
   
+    const drop = async () => {
+      let token = localStorage.getItem("adminToken");
+      let id = user?.id;
+      try {
+        const res = await axios.delete(`http://localhost:3000/admin/camper/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(res);
+        addToast({
+          data: {
+            title: "Success",
+            description: "Profile deleted",
+            color: "bg-green-600",
+            bg: "bg-green-500",
+          },
+        });
+      } catch (error) {
+        addToast({
+          data: {
+            title: "Error",
+            description: "Something went wrong",
+            color: "bg-red-600",
+            bg: "bg-red-500",
+          },
+        });
+        console.log(error);
+      }
+    };
+
+
+
+
   </script>
 
   <button use:melt={$trigger} class="p-2 rounded-lg">
@@ -58,6 +99,7 @@
             Cancel
           </button>
           <button
+            on:click={drop}
             use:melt={$close}
             class="inline-flex h-8 items-center justify-center rounded-[4px]
                       bg-red-500 hover:bg-red-300 focus:bg-red-600 text-white px-4 font-medium leading-none text-magnum-900"

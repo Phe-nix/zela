@@ -1,8 +1,13 @@
 <script>
+  // @ts-nocheck
+  import axios from "axios";
   import { createDialog, melt } from "@melt-ui/svelte";
-  import { fade } from 'svelte/transition';
+  import { fade } from "svelte/transition";
   import Icon from "@iconify/svelte";
 
+  import { invalidateAll } from "$app/navigation";
+  import { addToast } from "./Toast.svelte";
+  export let user = null;
   const {
     elements: {
       trigger,
@@ -18,6 +23,76 @@
     forceVisible: true,
   });
 
+  let allhouse = [];
+
+  const houseSelect = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/search/camps");
+      console.log(res.data);
+      allhouse = res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  houseSelect();
+
+  const Edit = async () => {
+    const formData = new FormData();
+    formData.append("profile", files[0]);
+    try {
+      const token = localStorage.getItem("adminToken");
+      let id = user?.id;
+      const res = await axios.put(
+        `http://localhost:3000/admin/camper/${id}`,
+        {
+          name: name,
+          zelaCode: zelaCode,
+          campId: parseInt(house),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+      const res2 = await axios.post(
+        `http://localhost:3000/admin/profile/${id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res2.data);
+      await invalidateAll();
+      addToast({
+        data: {
+          title: "Success",
+          description: "Profile updated",
+          color: "bg-green-600",
+          bg: "bg-green-500",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      addToast({
+        data: {
+          title: "Error",
+          description: "Profile not updated",
+          color: "bg-red-600",
+          bg: "bg-red-500",
+        },
+      });
+    }
+  };
+
+  //binding form
+  let name = user?.name;
+  let house = user?.Camp?.id;
+  let files = user?.ProfileImage?.url;
+  let zelaCode = user?.zelaCode;
 </script>
 
 <button use:melt={$trigger} class="p-2 rounded-lg">
@@ -25,61 +100,108 @@
 </button>
 
 <div class="font-mitr" use:melt={$portalled}>
-    {#if $open}
-      <div
-        use:melt={$overlay}
-        class="fixed inset-0 z-50 bg-black/50"
-        transition:fade={{ duration: 150 }}
-      />
-      <div
-        class="fixed left-[50%] top-[50%] z-50 max-h-[85vh] w-[90vw]
+  {#if $open}
+    <div
+      use:melt={$overlay}
+      class="fixed inset-0 z-50 bg-black/50"
+      transition:fade={{ duration: 150 }}
+    />
+    <div
+      class="fixed left-[50%] top-[50%] z-50 max-h-[85vh] w-[90vw]
               max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-white
               p-6 shadow-lg"
-        use:melt={$content}
-      >
-        <h2 use:melt={$title} class="m-0 text-lg font-medium text-black">
-          Edit profile
-        </h2>
-        <p use:melt={$description} class="mb-5 mt-2 leading-normal text-zinc-600">
-          Make changes to your profile here. Click save when you're done.
-        </p>
-  
-        <fieldset class="mb-4 flex items-center gap-5">
-          <label class="w-[90px] text-right text-black" for="name"> Name </label>
-          <input
-            class="inline-flex h-8 w-full flex-1 items-center justify-center
+      use:melt={$content}
+    >
+      <h2 use:melt={$title} class="m-0 text-lg font-medium text-black">
+        Edit profile
+      </h2>
+      <p use:melt={$description} class="mb-5 mt-2 leading-normal text-zinc-600">
+        Make changes to your profile here. Click save when you're done.
+      </p>
+
+      <!-- id -->
+      <fieldset class="mb-4 flex items-center gap-5">
+        <label class="w-[90px] text-right text-black" for="name"> id </label>
+        <input
+          disabled
+          class="inline-flex h-8 w-full flex-1 items-center justify-center
                       rounded-sm border border-solid px-3 leading-none text-black"
-            id="name"
-            value="Thomas G. Lopes"
-          />
-        </fieldset>
-        <fieldset class="mb-4 flex items-center gap-5">
-          <label class="w-[90px] text-right text-black" for="username">
-            Username
-          </label>
-          <input
-            class="inline-flex h-8 w-full flex-1 items-center justify-center
+          id="id"
+          value={user?.id}
+          placeholder="id"
+        />
+      </fieldset>
+      <!---Name-->
+      <fieldset class="mb-4 flex items-center gap-5">
+        <label class="w-[90px] text-right text-black" for="name"> Name </label>
+        <input
+          class="inline-flex h-8 w-full flex-1 items-center justify-center
                       rounded-sm border border-solid px-3 leading-none text-black"
-            id="username"
-            value="@thomasglopes"
-          />
-        </fieldset>
-        <div class="mt-6 flex justify-end gap-4">
-          <button
-            use:melt={$close}
-            class="inline-flex h-8 items-center justify-center rounded-sm
+          id="name"
+          bind:value={name}
+          placeholder="Name"
+        />
+      </fieldset>
+      <!---House-->
+      <fieldset class="mb-4 flex items-center gap-5">
+        <label class="w-[90px] text-right text-black" for="username">
+          House
+        </label>
+        <select
+          class="inline-flex h-8 w-full flex-1 items-center justify-center
+                      rounded-sm border border-solid px-3 leading-none text-black"
+          id="username"
+          bind:value={house}
+        >
+          <option value="null">Select House</option>
+          {#each allhouse as house}
+            <option value={house.id}>{house.name}</option>
+          {/each}
+        </select>
+      </fieldset>
+      <!---Profile-->
+      <fieldset class="mb-4 flex items-center gap-5">
+        <label class="w-[90px] text-right text-black" for="profile">
+          Profile
+        </label>
+        <input
+          class="inline-flex h-8 w-full flex-1 items-center justify-center
+                      rounded-sm border border-solid px-3 leading-none text-black"
+          type="file"
+          accept="image/png, image/jpeg, image/jpg"
+          bind:files
+        />
+      </fieldset>
+      <!---zelaCode-->
+      <fieldset class="mb-4 flex items-center gap-5">
+        <label class="w-[90px] text-right text-black" for="name">
+          ZelaCode
+        </label>
+        <input
+          class="inline-flex h-8 w-full flex-1 items-center justify-center
+                      rounded-sm border border-solid px-3 leading-none text-black"
+          id="name"
+          bind:value={zelaCode}
+          placeholder="Name"
+        />
+      </fieldset>
+      <div class="mt-6 flex justify-end gap-4">
+        <button
+          use:melt={$close}
+          class="inline-flex h-8 items-center justify-center rounded-sm
                       bg-zinc-100 px-4 font-medium leading-none text-zinc-600"
-          >
-            Cancel
-          </button>
-          <button
-            use:melt={$close}
-            class="inline-flex h-8 items-center justify-center rounded-sm
+        >
+          Cancel
+        </button>
+        <button
+          on:click={Edit}
+          use:melt={$close}
+          class="inline-flex h-8 items-center justify-center rounded-sm
                       bg-[#85CBDB] px-4 font-medium leading-none text-magnum-900"
-          >
-            Save changes
-          </button>
-        </div>
+        >
+          Save changes
+        </button>
       </div>
-    {/if}
-  </div>
+    </div>
+  {/if}
+</div>

@@ -3,19 +3,19 @@ import axios from "axios";
 
 /** @type {import('./$types').PageLoad} */
 export async function load({ parent }) {
-  let houses = null;
+  let alluser = null;
   if (browser) {
     const token = localStorage.getItem("adminToken");
     try {
-        const res = await axios.get("http://localhost:3000/search/camps", {
+        const res = await axios.get("http://localhost:3000/admin/search/campers", {
             headers: { Authorization: `Bearer ${token}` },
         });
-        houses = res.data;
+        alluser = res.data;
     } catch (error) {
       console.error(error);
     }
   }
   return {
-    houses,
+    alluser,
   };
 }
