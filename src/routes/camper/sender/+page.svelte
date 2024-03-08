@@ -31,7 +31,7 @@
     </div>
     <div class="py-2 flex flex-col sm:flex-row gap-5 flex-wrap overflow-auto">
       {#each campers as camper}
-        <Card name={camper.name} house={camper.Camp?.name} houseColor={camper.Camp?.color} profileSrc={`http://localhost:3000/${camper.ProfileImage?.url}`} me={user.name}/>
+        <Card name={camper.name} house={camper.Camp?.name} houseColor={camper.Camp?.color} profileSrc={`http://localhost:3000/${camper.ProfileImage?.url}`} me={user.name} id={camper.id}/>
       {/each}
     </div>
   </div>

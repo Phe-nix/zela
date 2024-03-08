@@ -2,11 +2,15 @@
   import { createAvatar, createDialog, melt } from "@melt-ui/svelte";
   import axios from "axios";
   import { fade } from "svelte/transition";
+  import { addToast } from "./Toast.svelte";
   export let name = "Name";
   export let house = "House";
   export let profileSrc = "";
   export let houseColor = "#E5E5E5";
   export let me = "";
+  export let id = "";
+
+  let nowMessage = "";
   const {
     elements: { image, fallback },
   } = createAvatar({
@@ -28,15 +32,41 @@
     forceVisible: true,
   });
 
-  const sending = async() => {
+  const sending = async () => {
     try {
       const camperToken = localStorage.getItem("camperToken");
-    }
-    catch (error) {
+      const res = await axios.post(
+        `http://localhost:3000/message/sent/${id}`,
+        {
+          message: nowMessage,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${camperToken}`,
+          },
+        }
+      );
+      console.log(res);
+      addToast({
+        data: {
+          title: "Success",
+          description: "Message sent",
+          color: "bg-green-600",
+          bg: "bg-green-500",
+        },
+      });
+    } catch (error) {
+      addToast({
+        data: {
+          title: "Error",
+          description: "Something went wrong",
+          color: "bg-red-600",
+          bg: "bg-red-500",
+        },
+      });
       console.log(error);
     }
   };
-
 </script>
 
 <div
@@ -86,6 +116,7 @@
       </p>
       <div>
         <textarea
+          bind:value={nowMessage}
           class="w-full h-80 p-2 border rounded-md bg-zinc-100 outline-none"
           placeholder="Type your message here....."
         ></textarea>
@@ -101,6 +132,7 @@
         </button>
         <button
           use:melt={$close}
+          on:click={sending}
           class="inline-flex h-8 items-center justify-center rounded-sm
                     bg-[#D9F0F4] px-4 font-medium leading-none text-magnum-900"
         >
