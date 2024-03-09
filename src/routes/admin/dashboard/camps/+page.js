@@ -10,6 +10,7 @@ export async function load({ parent }) {
         const res = await axios.get("http://localhost:3000/search/camps", {
             headers: { Authorization: `Bearer ${token}` },
         });
+        console.log(res.data);
         houses = res.data;
     } catch (error) {
       console.error(error);

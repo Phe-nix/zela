@@ -31,7 +31,7 @@
       >
     </div>
     <p>{user?.name || "Name"}</p>
-    <Tage name={user?.Camp?.name || "House"} color={user?.Camp?.color || "#C0FFEE"} type="show" />
+    <Tage name={user?.Camp?.name || "UNKNOW"} color={user?.Camp?.color || "#C0FFEE"} type="show" />
   </div>
   <div class="flex flex-row my-4 justify-around items-center">
     <ButtonEdit user={user} />

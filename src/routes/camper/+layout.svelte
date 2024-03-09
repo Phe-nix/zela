@@ -1,10 +1,17 @@
 <script>
+// @ts-nocheck
+
   import { goto } from "$app/navigation";
   import Icon from "@iconify/svelte";
   import { onMount } from "svelte";
   import { createDialog, melt } from "@melt-ui/svelte";
   import { fade } from "svelte/transition";
+  import Profile from "$lib/components/Profile.svelte";
 
+/** @type {import('./$types').LayoutData} */
+export let data;
+
+let user = data.user;
   // LOGOUT MODAL
   const {
     elements: {
@@ -66,11 +73,15 @@
             <p class="">Receive</p>
           </div>
         </a>
+        <Profile type="desktop" {user}/>
       </div>
       <div></div>
       <div></div>
 
-      <button use:melt={$trigger} class="block p-2 border-2 bg-red-500 rounded-lg">
+      <button
+        use:melt={$trigger}
+        class="block p-2 border-2 bg-red-500 rounded-lg"
+      >
         <div class="flex flex-row gap-2 justify-center items-center">
           <Icon
             icon="uis:signout"
@@ -100,14 +111,15 @@
     </button>
   </nav>
   <slot />
-  <footer class="bottom-0 fixed inset-x-0 mx-12 py-5">
+  <footer class="bottom-0 fixed inset-x-0 mx-8 py-5">
     <div
-      class="flex flex-row justify-between p-5 border bg-[#3090AA] text-white rounded-3xl font-mitr"
+      class="flex flex-row justify-between p-3 px-4 border items-center bg-[#3090AA] text-white rounded-3xl font-mitr"
     >
       <a href="/camper/sender" class="flex flex-row gap-4 items-center">
         <Icon icon="fa:send" width="24" height="24" style="color: white" />
         <p class="text-xs">Sender</p>
       </a>
+      <Profile type="mobile" {user}/>
       <a href="/camper/receive" class="flex flex-row gap-4 items-center">
         <Icon
           icon="material-symbols:markunread-mailbox-rounded"

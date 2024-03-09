@@ -5,9 +5,9 @@
   import { fade } from "svelte/transition";
   import Icon from "@iconify/svelte";
 
-  import { invalidateAll } from "$app/navigation";
   import { addToast } from "./Toast.svelte";
   export let user = null;
+  console.log(user);
   const {
     elements: {
       trigger,
@@ -66,7 +66,6 @@
         }
       );
       console.log(res2.data);
-      await invalidateAll();
       addToast({
         data: {
           title: "Success",
