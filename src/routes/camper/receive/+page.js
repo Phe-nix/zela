@@ -7,7 +7,7 @@ export async function load({ parent }) {
   let message = [];
   let campers = [];
   if (browser) {
-    let token = localStorage.getItem("token");
+    let token = localStorage.getItem("camperToken");
     try {
         const resCampers = await axios.get("http://localhost:3000/camper/");
         const resMess = await axios.get("http://localhost:3000/message/",

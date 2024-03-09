@@ -8,6 +8,7 @@
   import { addToast } from "$lib/components/Toast.svelte";
   import { createDialog, melt } from "@melt-ui/svelte";
   import { fade } from "svelte/transition";
+  import { browser } from "$app/environment";
 
   //binding form
   let name = "";
@@ -99,8 +100,33 @@
   // GET DATA
   /** @type {import('./$types').PageData} */
   export let data;
+  let catchusers = data?.alluser;
+  let alluser = data?.alluser;
 
-  const alluser = data?.alluser;
+  let hos = "";
+  let search = "";
+  let searchCooldown = null;
+  $: if (search != "" || hos != "" && browser) {
+    if (searchCooldown) {
+      clearTimeout(searchCooldown);
+    }
+    searchCooldown = setTimeout(async () => {
+      const token = localStorage.getItem("adminToken");
+      console.log(hos);
+      const res = await axios.get(
+        `http://localhost:3000/admin/search/campers?name=${search}&camp=${hos}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+      alluser = res.data;
+    }, 750);
+  } else {
+    alluser = catchusers;
+  }
 </script>
 
 <div class="w-screen bg-[#F3F3F3] px-20 py-10">
@@ -112,7 +138,17 @@
         height="20"
         style="color: #A3A3A3"
       />
-      <input type="text" class="w-full p-2 outline-none" placeholder="Search" />
+      <input
+        bind:value={search}
+        type="text"
+        class="w-full p-2 outline-none"
+        placeholder="Search"
+      />
+    </div>
+    <div class="py-2 flex gap-2 overflow-x-auto">
+      {#each allhouse as house}
+        <Tages color={house.color} name={house.name} bind:house={hos} type="use" />
+      {/each}
     </div>
     <div use:melt={$trigger} class="self-end">
       <button class="bg-green-500 text-white rounded-lg px-4 py-3"

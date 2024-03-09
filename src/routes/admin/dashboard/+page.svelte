@@ -1,5 +1,14 @@
 <script>
+// @ts-nocheck
+
   import Icon from "@iconify/svelte";
+  import axios from "axios";
+
+  // GET DATA
+  /** @type {import('./$types').PageData} */
+  export let data;
+
+console.log(data.dashboard)
 </script>
 
 <div class="w-screen bg-[#F3F3F3] sm:p-10 p-5 text-center">
@@ -19,7 +28,7 @@
         </div>
         <p>Company</p>
       </div>
-      <p class="text-4xl">0</p>
+      <p class="text-4xl">{data.dashboard?.totalCamps}</p>
     </div>
     <!-- จำนวนแค่ camper ทั้งหมด -->
     <div class="py-6 px-10 flex flex-col gap-y-3 rounded-xl bg-[#c0f2d0]">
@@ -34,7 +43,7 @@
         </div>
         <p>Camper</p>
       </div>
-      <p class="text-4xl">0</p>
+      <p class="text-4xl">{data.dashboard?.totalCampers}</p>
     </div>
     <!-- จำนวนแค่ stuff ทั้งหมด -->
     <div class="py-6 px-10 flex flex-col gap-y-3 rounded-xl bg-[#dbea9f]">
@@ -49,22 +58,7 @@
         </div>
         <p>Stuff</p>
       </div>
-      <p class="text-4xl">0</p>
-    </div>
-    <!-- จำนวนแค่ users ทั้งหมด -->
-    <div class="py-6 px-10 flex flex-col gap-y-3 rounded-xl bg-[#f0dfb8]">
-      <div class="flex flex-row gap-2 items-center">
-        <div class="rounded-full p-2 bg-[#c47d32]">
-          <Icon
-            icon="mdi:account-group"
-            width="24"
-            height="24"
-            style="color: black"
-          />
-        </div>
-        <p>Users</p>
-      </div>
-      <p class="text-4xl">0</p>
+      <p class="text-4xl">{data.dashboard?.totalStaffs}</p>
     </div>
   </section>
 </div>

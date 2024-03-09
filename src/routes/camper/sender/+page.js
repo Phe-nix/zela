@@ -9,7 +9,7 @@ export async function load({ parent }) {
   if (browser) {
     try {
         const resCampers = await axios.get("http://localhost:3000/camper/");
-        const resCamps = await axios.get("http://localhost:3000/search/camps/");
+        const resCamps = await axios.get("http://localhost:3000/search/camps");
         campers = resCampers.data;
         camps = resCamps.data;
     } catch (error) {
