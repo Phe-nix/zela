@@ -38,8 +38,6 @@
   houseSelect();
 
   const Edit = async () => {
-    const formData = new FormData();
-    formData.append("profile", files[0]);
     try {
       const token = localStorage.getItem("adminToken");
       let id = user?.id;
@@ -57,16 +55,20 @@
         }
       );
       console.log(res.data);
-      const res2 = await axios.post(
-        `${PUBLIC_API_URL}/admin/profile/${id}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(res2.data);
+      if (files) {
+        const formData = new FormData();
+        formData.append("profile", files[0]);
+        const res2 = await axios.post(
+          `${PUBLIC_API_URL}/admin/profile/${id}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(res2.data);
+      }
       addToast({
         data: {
           title: "Success",

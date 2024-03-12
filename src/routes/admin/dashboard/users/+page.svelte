@@ -18,9 +18,6 @@
   let zelaCode = "";
   // CREATE USER
   const createUser = async () => {
-    console.log(files);
-    const formData = new FormData();
-    formData.append("profile", files[0]);
     try {
       const token = localStorage.getItem("adminToken");
       const res = await axios.post(
@@ -37,16 +34,21 @@
         }
       );
       console.log(res.data);
-      const res2 = await axios.post(
-        `${PUBLIC_API_URL}/admin/profile/${res.data.id}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log(res2.data);
+      if (files) {
+        console.log(files);
+        const formData = new FormData();
+        formData.append("profile", files[0]);
+        const res2 = await axios.post(
+          `${PUBLIC_API_URL}/admin/profile/${res.data.id}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(res2.data);
+      }
       addToast({
         data: {
           title: "Success",
@@ -107,7 +109,7 @@
   let hos = "";
   let search = "";
   let searchCooldown = null;
-  $: if (search != "" || hos != "" && browser) {
+  $: if (search != "" || (hos != "" && browser)) {
     if (searchCooldown) {
       clearTimeout(searchCooldown);
     }
@@ -148,7 +150,12 @@
     </div>
     <div class="flex gap-2 py-2 overflow-x-auto">
       {#each allhouse as house}
-        <Tages color={house.color} name={house.name} bind:house={hos} type="use" />
+        <Tages
+          color={house.color}
+          name={house.name}
+          bind:house={hos}
+          type="use"
+        />
       {/each}
     </div>
     <div use:melt={$trigger} class="self-end">
