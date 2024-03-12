@@ -9,7 +9,9 @@ export async function load({ parent }) {
   let camps = [];
   if (browser) {
     try {
-        const resCampers = await axios.get(`${PUBLIC_API_URL}/camper/`);
+        const resCampers = await axios.get(`${PUBLIC_API_URL}/search/campers`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem('camperToken')}` },
+        });
         const resCamps = await axios.get(`${PUBLIC_API_URL}/search/camps`);
         campers = resCampers.data;
         camps = resCamps.data;
