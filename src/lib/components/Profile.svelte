@@ -6,6 +6,7 @@
   import { fade } from "svelte/transition";
   import Icon from "@iconify/svelte";
   import { addToast } from "./Toast.svelte";
+  import { PUBLIC_API_URL } from "$env/static/public";
 
   export let type = "";
   export let user = null;
@@ -33,7 +34,7 @@
     try {
       const token = localStorage.getItem("camperToken");
       const res = await axios.post(
-        `http://localhost:3000/camper/profile`,
+        `${PUBLIC_API_URL}/camper/profile`,
         formData,
         {
           headers: {
@@ -83,8 +84,8 @@
   </button>
 {/if}
 {#if type === "desktop"}
-  <button use:melt={$trigger} class="ml-5 block p-2">
-    <div class="flex flex-row gap-2 justify-center py-2 items-center">
+  <button use:melt={$trigger} class="block p-2 ml-5">
+    <div class="flex flex-row items-center justify-center gap-2 py-2">
       <Icon
         icon="flowbite:user-edit-solid"
         width="24"
@@ -113,40 +114,37 @@
       <h2 use:melt={$title} class="m-0 text-lg font-medium text-black">
         Edit image profile
       </h2>
-      <p use:melt={$description} class="mb-5 mt-2 leading-normal text-zinc-600">
+      <p use:melt={$description} class="mt-2 mb-5 leading-normal text-zinc-600">
         Make changes to your profile here. Click save when you're done.
       </p>
 
       <!---Name-->
-      <fieldset class="mb-4 flex items-center gap-5">
+      <fieldset class="flex items-center gap-5 mb-4">
         <label class="w-[90px] text-right text-black" for="name"> Name </label>
         <input
           disabled
-          class="inline-flex h-8 w-full flex-1 items-center justify-center
-                        rounded-sm border border-solid px-3 leading-none text-black"
+          class="inline-flex items-center justify-center flex-1 w-full h-8 px-3 leading-none text-black border border-solid rounded-sm"
           id="name"
           placeholder="Name"
           bind:value={name}
         />
       </fieldset>
       <!---Profile-->
-      <fieldset class="mb-4 flex items-center gap-5">
+      <fieldset class="flex items-center gap-5 mb-4">
         <label class="w-[90px] text-right text-black" for="profile">
           Profile
         </label>
         <input
-          class="inline-flex h-8 w-full flex-1 items-center justify-center
-                        rounded-sm border border-solid px-3 leading-none text-black"
+          class="inline-flex items-center justify-center flex-1 w-full h-8 px-3 leading-none text-black border border-solid rounded-sm"
           type="file"
           accept="image/png, image/jpeg, image/jpg"
           bind:files
         />
       </fieldset>
-      <div class="mt-6 flex justify-end gap-4">
+      <div class="flex justify-end gap-4 mt-6">
         <button
           use:melt={$close}
-          class="inline-flex h-8 items-center justify-center rounded-sm
-                        bg-zinc-100 px-4 font-medium leading-none text-zinc-600"
+          class="inline-flex items-center justify-center h-8 px-4 font-medium leading-none rounded-sm bg-zinc-100 text-zinc-600"
         >
           Cancel
         </button>

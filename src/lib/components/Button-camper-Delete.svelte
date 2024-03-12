@@ -6,6 +6,7 @@
   import Icon from "@iconify/svelte";
   import axios from "axios";
   import { addToast } from "./Toast.svelte";
+  import { PUBLIC_API_URL } from "$env/static/public";
 
   export let house = null;
 
@@ -30,7 +31,7 @@
     const toknen = localStorage.getItem("adminToken");
     try {
       const res = await axios.delete(
-        `http://localhost:3000/admin/camp/${house.id}`,
+        `${PUBLIC_API_URL}/admin/camp/${house.id}`,
         {
           headers: {
             Authorization: `Bearer ${toknen}`,
@@ -84,11 +85,11 @@
       <h2 use:melt={$title} class="m-0 text-lg font-medium text-red-500">
         Are you sure you want to delete this?
       </h2>
-      <p use:melt={$description} class="mb-5 mt-2 leading-normal text-zinc-600">
+      <p use:melt={$description} class="mt-2 mb-5 leading-normal text-zinc-600">
         This action cannot be undone.
       </p>
 
-      <div class="mt-6 flex justify-end gap-4">
+      <div class="flex justify-end gap-4 mt-6">
         <button
           use:melt={$close}
           class="inline-flex h-8 items-center justify-center rounded-[4px]

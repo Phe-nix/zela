@@ -4,6 +4,7 @@
   import Icon from "@iconify/svelte";
   import {addToast} from "./Toast.svelte";
   import axios from "axios";
+  import { PUBLIC_API_URL } from "$env/static/public";
   const {
     elements: {
       trigger,
@@ -24,7 +25,7 @@
     const toknen = localStorage.getItem("adminToken");
     try {
       const res = await axios.post(
-        `http://localhost:3000/admin/camp`,
+        `${PUBLIC_API_URL}/admin/camp`,
         {
           name: name,
           color: color,
@@ -64,7 +65,7 @@
 
 <button
   use:melt={$trigger}
-  class="bg-green-500 text-white rounded-lg px-4 py-3 font-mitr"
+  class="px-4 py-3 text-white bg-green-500 rounded-lg font-mitr"
   >Add house</button
 >
 
@@ -84,36 +85,33 @@
       <h2 use:melt={$title} class="m-0 text-lg font-medium text-black">
         Create new house
       </h2>
-      <p use:melt={$description} class="mb-5 mt-2 leading-normal text-zinc-600">
+      <p use:melt={$description} class="mt-2 mb-5 leading-normal text-zinc-600">
         Make changes to your profile here. Click save when you're done.
       </p>
 
       <!---Name-->
-      <fieldset class="mb-4 flex items-center gap-5">
+      <fieldset class="flex items-center gap-5 mb-4">
         <label class="w-[90px] text-right text-black" for="name"> Name </label>
         <input
-          class="inline-flex h-8 w-full flex-1 items-center justify-center
-                          rounded-sm border border-solid px-3 leading-none text-black"
+          class="inline-flex items-center justify-center flex-1 w-full h-8 px-3 leading-none text-black border border-solid rounded-sm"
           id="name"
           placeholder="Name"
           bind:value={name}
         />
       </fieldset>
       <!---color-->
-      <fieldset class="mb-4 flex items-center gap-5">
+      <fieldset class="flex items-center gap-5 mb-4">
         <label class="w-[90px] text-right text-black" for="name"> Color </label>
         <input
-          class="inline-flex h-8 w-full flex-1 items-center justify-center
-                          rounded-sm border border-solid px-3 leading-none text-black"
+          class="inline-flex items-center justify-center flex-1 w-full h-8 px-3 leading-none text-black border border-solid rounded-sm"
           type="color"
           bind:value={color}
         />
       </fieldset>
-      <div class="mt-6 flex justify-end gap-4">
+      <div class="flex justify-end gap-4 mt-6">
         <button
           use:melt={$close}
-          class="inline-flex h-8 items-center justify-center rounded-sm
-                          bg-zinc-100 px-4 font-medium leading-none text-zinc-600"
+          class="inline-flex items-center justify-center h-8 px-4 font-medium leading-none rounded-sm bg-zinc-100 text-zinc-600"
         >
           Cancel
         </button>

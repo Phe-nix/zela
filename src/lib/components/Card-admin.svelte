@@ -12,14 +12,14 @@
   const {
     elements: { image, fallback },
   } = createAvatar({
-    src: user.ProfileImage?.url && `http://localhost:3000/${user.ProfileImage?.url}` || "https://via.placeholder.com/150",
+    src: user.ProfileImage?.url || "https://via.placeholder.com/150",
   });
 </script>
 
 <div class="flex flex-col bg-[#E5E5E5] rounded-xl font-mitr">
   <div class="flex flex-col items-center gap-2 px-20 py-8">
     <div
-      class="flex h-16 w-16 items-center justify-center rounded-full bg-neutral-100"
+      class="flex items-center justify-center w-16 h-16 rounded-full bg-neutral-100"
     >
       <img
         use:melt={$image}
@@ -33,7 +33,7 @@
     <p>{user?.name || "Name"}</p>
     <Tage name={user?.Camp?.name || "UNKNOW"} color={user?.Camp?.color || "#C0FFEE"} type="show" />
   </div>
-  <div class="flex flex-row my-4 justify-around items-center">
+  <div class="flex flex-row items-center justify-around my-4">
     <ButtonEdit user={user} />
     <ButtonDelete user={user}/>
   </div>

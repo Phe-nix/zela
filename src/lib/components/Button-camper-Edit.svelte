@@ -6,6 +6,7 @@
   import Icon from "@iconify/svelte";
 
   import { addToast } from "./Toast.svelte";
+  import { PUBLIC_API_URL } from "$env/static/public";
 
   export let house = null;
   const {
@@ -32,7 +33,7 @@
     const toknen = localStorage.getItem("adminToken");
     try {
       const res = await axios.put(
-        `http://localhost:3000/admin/camp/${id}`,
+        `${PUBLIC_API_URL}/admin/camp/${id}`,
         {
           name : name,
           color : color,
@@ -86,48 +87,44 @@
       <h2 use:melt={$title} class="m-0 text-lg font-medium text-black">
         Edit house
       </h2>
-      <p use:melt={$description} class="mb-5 mt-2 leading-normal text-zinc-600">
+      <p use:melt={$description} class="mt-2 mb-5 leading-normal text-zinc-600">
         Make changes to your profile here. Click save when you're done.
       </p>
 
       <!-- id -->
-      <fieldset class="mb-4 flex items-center gap-5">
+      <fieldset class="flex items-center gap-5 mb-4">
         <label class="w-[90px] text-right text-black" for="name"> id </label>
         <input
           disabled
-          class="inline-flex h-8 w-full flex-1 items-center justify-center
-                        rounded-sm border border-solid px-3 leading-none text-black"
+          class="inline-flex items-center justify-center flex-1 w-full h-8 px-3 leading-none text-black border border-solid rounded-sm"
           id="id"
           bind:value={id}
           placeholder="id"
         />
       </fieldset>
       <!---Name-->
-      <fieldset class="mb-4 flex items-center gap-5">
+      <fieldset class="flex items-center gap-5 mb-4">
         <label class="w-[90px] text-right text-black" for="name"> Name </label>
         <input
-          class="inline-flex h-8 w-full flex-1 items-center justify-center
-                        rounded-sm border border-solid px-3 leading-none text-black"
+          class="inline-flex items-center justify-center flex-1 w-full h-8 px-3 leading-none text-black border border-solid rounded-sm"
           id="name"
           placeholder="Name"
           bind:value={name}
         />
       </fieldset>
       <!---color-->
-      <fieldset class="mb-4 flex items-center gap-5">
+      <fieldset class="flex items-center gap-5 mb-4">
         <label class="w-[90px] text-right text-black" for="name"> Color </label>
         <input
-          class="inline-flex h-8 w-full flex-1 items-center justify-center
-                        rounded-sm border border-solid px-3 leading-none text-black"
+          class="inline-flex items-center justify-center flex-1 w-full h-8 px-3 leading-none text-black border border-solid rounded-sm"
           type="color"
           bind:value={color}
         />
       </fieldset>
-      <div class="mt-6 flex justify-end gap-4">
+      <div class="flex justify-end gap-4 mt-6">
         <button
           use:melt={$close}
-          class="inline-flex h-8 items-center justify-center rounded-sm
-                        bg-zinc-100 px-4 font-medium leading-none text-zinc-600"
+          class="inline-flex items-center justify-center h-8 px-4 font-medium leading-none rounded-sm bg-zinc-100 text-zinc-600"
         >
           Cancel
         </button>

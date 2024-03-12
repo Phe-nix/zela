@@ -6,6 +6,7 @@
   import Card from "$lib/components/Card-camper.svelte";
   import { onMount } from "svelte";
   import axios from "axios";
+  import { PUBLIC_API_URL } from "$env/static/public";
 
   /** @type {import('./$types').PageData} */
   export let data;
@@ -25,7 +26,7 @@
     }
     searchCooldown = setTimeout(async () => {
       const token = localStorage.getItem('camperToken');
-      const res = await axios.get(`http://localhost:3000/search/campers?name=${search}&camp=${house}`,{
+      const res = await axios.get(`${PUBLIC_API_URL}/search/campers?name=${search}&camp=${house}`,{
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -43,7 +44,7 @@
 <div class="w-screen bg-[#F3F3F3] px-20 py-10">
   <div class="flex flex-col text-center">
     <div
-      class="border flex flex-row items-center px-2 gap-3 bg-white rounded-lg"
+      class="flex flex-row items-center gap-3 px-2 bg-white border rounded-lg"
     >
       <Icon
         icon="iconamoon:search-light"
@@ -53,14 +54,14 @@
       />
       <input type="text" bind:value={search} class="w-full p-2 outline-none" placeholder="Search" />
     </div>
-    <div class="py-2 flex gap-2 overflow-x-auto">
+    <div class="flex gap-2 py-2 overflow-x-auto">
       {#each camps as camp (camp.id)}
         <Tages color={camp.color} name={camp.name} bind:house={house} type="use" />
       {/each}
     </div>
-    <div class="py-2 flex flex-col sm:flex-row gap-5 flex-wrap overflow-auto">
+    <div class="flex flex-col flex-wrap gap-5 py-2 overflow-auto sm:flex-row">
       {#each campers as camper (camper.id)}
-        <Card name={camper.name} house={camper.Camp?.name} houseColor={camper.Camp?.color} profileSrc={`http://localhost:3000/${camper.ProfileImage?.url}`} me={user.name} id={camper.id}/>
+        <Card name={camper.name} house={camper.Camp?.name} houseColor={camper.Camp?.color} profileSrc={`${camper.ProfileImage?.url}`} me={user.name} id={camper.id}/>
       {/each}
     </div>
   </div>

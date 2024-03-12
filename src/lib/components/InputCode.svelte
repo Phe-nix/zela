@@ -3,13 +3,14 @@
   import Icon from "@iconify/svelte";
   import axios, { AxiosError } from "axios";
   import {addToast} from "$lib/components/Toast.svelte";
+  import { PUBLIC_API_URL } from "$env/static/public";
 
   let code = "";
 
   const sendCode = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/auth/camper/code",
+        `${PUBLIC_API_URL}/auth/camper/code`,
         {
           zelaCode: code,
         }

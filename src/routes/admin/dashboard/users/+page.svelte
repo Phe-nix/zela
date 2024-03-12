@@ -9,6 +9,7 @@
   import { createDialog, melt } from "@melt-ui/svelte";
   import { fade } from "svelte/transition";
   import { browser } from "$app/environment";
+  import { PUBLIC_API_URL } from "$env/static/public";
 
   //binding form
   let name = "";
@@ -23,7 +24,7 @@
     try {
       const token = localStorage.getItem("adminToken");
       const res = await axios.post(
-        "http://localhost:3000/admin/camper",
+        `${PUBLIC_API_URL}/admin/camper`,
         {
           name: name,
           zelaCode: zelaCode,
@@ -37,7 +38,7 @@
       );
       console.log(res.data);
       const res2 = await axios.post(
-        `http://localhost:3000/admin/profile/${res.data.id}`,
+        `${PUBLIC_API_URL}/admin/profile/${res.data.id}`,
         formData,
         {
           headers: {
@@ -88,7 +89,7 @@
 
   const houseSelect = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/search/camps");
+      const res = await axios.get(`${PUBLIC_API_URL}/search/camps`);
       console.log(res.data);
       allhouse = res.data;
     } catch (error) {
@@ -114,7 +115,7 @@
       const token = localStorage.getItem("adminToken");
       console.log(hos);
       const res = await axios.get(
-        `http://localhost:3000/admin/search/campers?name=${search}&camp=${hos}`,
+        `${PUBLIC_API_URL}/admin/search/campers?name=${search}&camp=${hos}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -131,7 +132,7 @@
 
 <div class="w-screen bg-[#F3F3F3] px-20 py-10">
   <div class="flex flex-col text-center gap-y-4">
-    <div class="flex flex-row items-center px-2 gap-3 bg-white rounded-lg">
+    <div class="flex flex-row items-center gap-3 px-2 bg-white rounded-lg">
       <Icon
         icon="iconamoon:search-light"
         width="20"
@@ -145,27 +146,20 @@
         placeholder="Search"
       />
     </div>
-    <div class="py-2 flex gap-2 overflow-x-auto">
+    <div class="flex gap-2 py-2 overflow-x-auto">
       {#each allhouse as house}
         <Tages color={house.color} name={house.name} bind:house={hos} type="use" />
       {/each}
     </div>
     <div use:melt={$trigger} class="self-end">
-      <button class="bg-green-500 text-white rounded-lg px-4 py-3"
+      <button class="px-4 py-3 text-white bg-green-500 rounded-lg"
         >Add user</button
       >
     </div>
-    <div class="py-2 flex flex-col sm:flex-row gap-5 flex-wrap overflow-auto">
+    <div class="flex flex-col flex-wrap gap-5 py-2 overflow-auto sm:flex-row">
       {#each alluser || [] as user}
         <Card {user} />
       {/each}
-      <!-- <Card
-          name={user?.name}
-          house={user?.Camp?.name}
-          houseColor={user?.Camp?.color}
-          profileSrc={`http://localhost:3000/${user?.ProfileImage?.url}`}
-        /> -->
-      <!-- <Card /> -->
     </div>
   </div>
 </div>
@@ -187,29 +181,27 @@
       <h2 use:melt={$title} class="m-0 text-lg font-medium text-black">
         Edit profile
       </h2>
-      <p use:melt={$description} class="mb-5 mt-2 leading-normal text-zinc-600">
+      <p use:melt={$description} class="mt-2 mb-5 leading-normal text-zinc-600">
         Make changes to your profile here. Click save when you're done.
       </p>
 
       <!---Name-->
-      <fieldset class="mb-4 flex items-center gap-5">
+      <fieldset class="flex items-center gap-5 mb-4">
         <label class="w-[90px] text-right text-black" for="name"> Name </label>
         <input
-          class="inline-flex h-8 w-full flex-1 items-center justify-center
-                      rounded-sm border border-solid px-3 leading-none text-black"
+          class="inline-flex items-center justify-center flex-1 w-full h-8 px-3 leading-none text-black border border-solid rounded-sm"
           id="name"
           placeholder="Name"
           bind:value={name}
         />
       </fieldset>
       <!---House-->
-      <fieldset class="mb-4 flex items-center gap-5">
+      <fieldset class="flex items-center gap-5 mb-4">
         <label class="w-[90px] text-right text-black" for="username">
           House
         </label>
         <select
-          class="inline-flex h-8 w-full flex-1 items-center justify-center
-                      rounded-sm border border-solid px-3 leading-none text-black"
+          class="inline-flex items-center justify-center flex-1 w-full h-8 px-3 leading-none text-black border border-solid rounded-sm"
           id="username"
           bind:value={house}
         >
@@ -220,36 +212,33 @@
         </select>
       </fieldset>
       <!---Profile-->
-      <fieldset class="mb-4 flex items-center gap-5">
+      <fieldset class="flex items-center gap-5 mb-4">
         <label class="w-[90px] text-right text-black" for="profile">
           Profile
         </label>
         <input
-          class="inline-flex h-8 w-full flex-1 items-center justify-center
-                      rounded-sm border border-solid px-3 leading-none text-black"
+          class="inline-flex items-center justify-center flex-1 w-full h-8 px-3 leading-none text-black border border-solid rounded-sm"
           type="file"
           accept="image/png, image/jpeg, image/jpg"
           bind:files
         />
       </fieldset>
       <!---zelaCode-->
-      <fieldset class="mb-4 flex items-center gap-5">
+      <fieldset class="flex items-center gap-5 mb-4">
         <label class="w-[90px] text-right text-black" for="name">
           ZelaCode
         </label>
         <input
-          class="inline-flex h-8 w-full flex-1 items-center justify-center
-                      rounded-sm border border-solid px-3 leading-none text-black"
+          class="inline-flex items-center justify-center flex-1 w-full h-8 px-3 leading-none text-black border border-solid rounded-sm"
           id="name"
           placeholder="Code"
           bind:value={zelaCode}
         />
       </fieldset>
-      <div class="mt-6 flex justify-end gap-4">
+      <div class="flex justify-end gap-4 mt-6">
         <button
           use:melt={$close}
-          class="inline-flex h-8 items-center justify-center rounded-sm
-                      bg-zinc-100 px-4 font-medium leading-none text-zinc-600"
+          class="inline-flex items-center justify-center h-8 px-4 font-medium leading-none rounded-sm bg-zinc-100 text-zinc-600"
         >
           Cancel
         </button>

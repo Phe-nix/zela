@@ -3,6 +3,7 @@
   import axios from "axios";
   import { fade } from "svelte/transition";
   import { addToast } from "./Toast.svelte";
+  import { PUBLIC_API_URL } from "$env/static/public";
   export let name = "Name";
   export let house = "House";
   export let profileSrc = "";
@@ -36,7 +37,7 @@
     try {
       const camperToken = localStorage.getItem("camperToken");
       const res = await axios.post(
-        `http://localhost:3000/message/sent/${id}`,
+        `${PUBLIC_API_URL}/message/sent/${id}`,
         {
           message: nowMessage,
         },
@@ -71,12 +72,11 @@
 
 <div
   use:melt={$trigger}
-  class="border px-5 py-14 w-64 shadow-lg rounded-xl
-  gap-8 flex flex-col items-center hover:shadow-2xl transition duration-500 ease-in-out"
+  class="flex flex-col items-center w-64 gap-8 px-5 transition duration-500 ease-in-out border shadow-lg py-14 rounded-xl hover:shadow-2xl"
   style={`background: linear-gradient(to bottom, white, white, ${houseColor});`}
 >
   <div
-    class="flex h-24 w-24 items-center justify-center rounded-full bg-neutral-200"
+    class="flex items-center justify-center w-24 h-24 rounded-full bg-neutral-200"
   >
     <img
       use:melt={$image}
@@ -87,7 +87,7 @@
       >Profile</span
     >
   </div>
-  <div class="font-mitr font-normal">
+  <div class="font-normal font-mitr">
     <h3>{name}</h3>
     <p>{house}</p>
   </div>
@@ -111,22 +111,21 @@
       <h2 use:melt={$title} class="m-0 text-lg font-medium text-black">
         To : {name}
       </h2>
-      <p use:melt={$description} class="mb-5 mt-2 leading-normal text-zinc-600">
+      <p use:melt={$description} class="mt-2 mb-5 leading-normal text-zinc-600">
         Write something to send to <span class="font-semibold">{name}</span>.
       </p>
       <div>
         <textarea
           bind:value={nowMessage}
-          class="w-full h-80 p-2 border rounded-md bg-zinc-100 outline-none"
+          class="w-full p-2 border rounded-md outline-none h-80 bg-zinc-100"
           placeholder="Type your message here....."
         ></textarea>
       </div>
       <p class="text-xl text-zinc-600 text-end">From : {me}</p>
-      <div class="mt-6 flex justify-end gap-4">
+      <div class="flex justify-end gap-4 mt-6">
         <button
           use:melt={$close}
-          class="inline-flex h-8 items-center justify-center rounded-sm
-                    bg-zinc-100 px-4 font-medium leading-none text-zinc-600"
+          class="inline-flex items-center justify-center h-8 px-4 font-medium leading-none rounded-sm bg-zinc-100 text-zinc-600"
         >
           Cancel
         </button>

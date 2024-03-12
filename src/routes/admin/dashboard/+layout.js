@@ -1,5 +1,6 @@
 import { browser } from "$app/environment";
 import { goto } from "$app/navigation";
+import { PUBLIC_API_URL } from "$env/static/public";
 import axios, { AxiosError } from "axios";
 
 /** @type {import('./$types').LayoutLoad} */
@@ -11,7 +12,7 @@ export async function load() {
         if (!adminToken) {
             goto("/admin");
         }
-        const res = await axios.get("http://localhost:3000/auth/admin/me", {
+        const res = await axios.get(`${PUBLIC_API_URL}/auth/admin/me`, {
             headers: {
                 Authorization: `Bearer ${adminToken}`,
             },
