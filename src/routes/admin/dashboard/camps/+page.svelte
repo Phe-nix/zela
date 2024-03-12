@@ -1,6 +1,5 @@
 <script>
   import Icon from "@iconify/svelte";
-  import Tages from "$lib/components/Tages-camper.svelte";
   import Card from "$lib/components/Card-admin-camps.svelte";
   import Button from "$lib/components/ButtonAdd-camps.svelte";
   // GET DATA

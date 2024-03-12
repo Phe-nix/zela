@@ -2,6 +2,7 @@
   import { createDialog, melt } from "@melt-ui/svelte";
   import { fade } from "svelte/transition";
   import Icon from "@iconify/svelte";
+  import { goto } from "$app/navigation";
   import {addToast} from "./Toast.svelte";
   import axios from "axios";
   import { PUBLIC_API_URL } from "$env/static/public";
@@ -56,7 +57,18 @@
             },
             });
     }
+    reloadPage()
   };
+
+  function reloadPage() {
+        const thisPage = window.location.pathname;
+
+        console.log('goto ' + thisPage);
+
+        goto('/').then(
+            () => goto(thisPage)
+        );
+    }
 
   // BINDING INPUT
   let name = "";

@@ -12,7 +12,7 @@
   const {
     elements: { image, fallback },
   } = createAvatar({
-    src: user.ProfileImage?.url || "https://via.placeholder.com/150",
+    src: user.ProfileImage?.url 
   });
 </script>
 

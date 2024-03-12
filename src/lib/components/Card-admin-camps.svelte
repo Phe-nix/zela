@@ -13,7 +13,8 @@
 <div class="flex flex-col bg-[#E5E5E5] rounded-xl font-mitr">
   <div class="flex flex-col items-center gap-2 px-20 py-8">
     <div
-      class="flex h-16 w-16 items-center justify-center rounded-full bg-[{house.color}]"
+      class="flex h-16 w-16 p-2 items-center justify-center rounded-full"
+      style="background-color: {house.color};"
     />
     <p>{house.name}</p>
     <!-- <Tage name={user?.Camp?.name || "House"} color={user?.Camp?.color || "#C0FFEE"} type="show" /> -->

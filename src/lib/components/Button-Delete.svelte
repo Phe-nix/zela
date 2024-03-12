@@ -56,10 +56,19 @@
         });
         console.log(error);
       }
+      reloadPage();
     };
 
 
+    function reloadPage() {
+        const thisPage = window.location.pathname;
 
+        console.log('goto ' + thisPage);
+
+        goto('/').then(
+            () => goto(thisPage)
+        );
+    }
 
   </script>
 

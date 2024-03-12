@@ -10,6 +10,7 @@
   import { fade } from "svelte/transition";
   import { browser } from "$app/environment";
   import { PUBLIC_API_URL } from "$env/static/public";
+  import { goto } from "$app/navigation";
 
   //binding form
   let name = "";
@@ -68,6 +69,7 @@
       });
       console.log(error);
     }
+    reloadPage();
   };
 
   // MODAL
@@ -130,8 +132,20 @@
   } else {
     alluser = catchusers;
   }
-</script>
 
+
+
+
+  function reloadPage() {
+        const thisPage = window.location.pathname;
+
+        console.log('goto ' + thisPage);
+
+        goto('/').then(
+            () => goto(thisPage)
+        );
+    }
+</script>
 <div class="w-screen bg-[#F3F3F3] px-20 py-10">
   <div class="flex flex-col text-center gap-y-4">
     <div class="flex flex-row items-center gap-3 px-2 bg-white rounded-lg">
@@ -186,7 +200,7 @@
       use:melt={$content}
     >
       <h2 use:melt={$title} class="m-0 text-lg font-medium text-black">
-        Edit profile
+        Create profile
       </h2>
       <p use:melt={$description} class="mt-2 mb-5 leading-normal text-zinc-600">
         Make changes to your profile here. Click save when you're done.

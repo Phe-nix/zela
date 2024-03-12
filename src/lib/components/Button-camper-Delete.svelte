@@ -5,6 +5,7 @@
   import { fade } from "svelte/transition";
   import Icon from "@iconify/svelte";
   import axios from "axios";
+  import { goto } from "$app/navigation";
   import { addToast } from "./Toast.svelte";
   import { PUBLIC_API_URL } from "$env/static/public";
 
@@ -57,7 +58,19 @@
         },
       });
     }
+    reloadPage();
   };
+
+
+  function reloadPage() {
+        const thisPage = window.location.pathname;
+
+        console.log('goto ' + thisPage);
+
+        goto('/').then(
+            () => goto(thisPage)
+        );
+    }
 </script>
 
 <button use:melt={$trigger} class="p-2 rounded-lg">
